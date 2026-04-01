@@ -4,6 +4,7 @@ import { db } from "@/lib/db"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PLANS } from "@/lib/stripe"
+import { WatchlistSection } from "@/components/dashboard/watchlist-section"
 
 interface CalendarEntry {
   date: string
@@ -142,39 +143,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* Watchlist */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-gray-300">ウォッチリスト</h2>
-              <span className="text-xs text-gray-600">{user?.watchlists.length ?? 0}銘柄</span>
-            </div>
-            {(user?.watchlists.length ?? 0) === 0 ? (
-              <div>
-                <p className="text-gray-500 text-sm mb-3">銘柄をウォッチリストに追加できます</p>
-                <Link href="/chat">
-                  <Button variant="outline" className="border-gray-700 text-gray-400 text-xs">
-                    分析画面から追加 →
-                  </Button>
-                </Link>
-              </div>
-            ) : (
-              <ul className="space-y-2">
-                {user!.watchlists.map(w => (
-                  <li key={w.id} className="flex items-center justify-between text-sm hover:bg-gray-800 rounded-lg px-3 py-2 group">
-                    <div>
-                      <span className="text-gray-300 font-medium">{w.name}</span>
-                      <span className="text-gray-600 text-xs ml-2">{w.code}</span>
-                    </div>
-                    <Link
-                      href={`/chat?q=${encodeURIComponent(`${w.name}（${w.code}）を分析して`)}`}
-                      className="text-xs text-amber-500 hover:text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      分析する →
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <WatchlistSection initial={user?.watchlists ?? []} />
         </div>
 
         {/* Earnings Calendar */}
