@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
   switch (event.type) {
     case "checkout.session.completed": {
-      const session = event.data.object as Stripe.CheckoutSession
+      const session = event.data.object as Stripe.Checkout.Session
       const userId = session.metadata?.userId
       const plan = session.metadata?.plan
       if (userId && plan) {
@@ -39,11 +39,14 @@ export async function POST(req: NextRequest) {
       if (event.type === "customer.subscription.deleted") {
         await db.user.update({ where: { id: user.id }, data: { plan: "FREE" } })
       } else {
+        const subscription = sub as Stripe.Subscription & { current_period_end?: number }
         await db.user.update({
           where: { id: user.id },
           data: {
             stripeSubscriptionId: sub.id,
-            stripeCurrentPeriodEnd: new Date((sub as any).current_period_end * 1000),
+            stripeCurrentPeriodEnd: subscription.current_period_end
+              ? new Date(subscription.current_period_end * 1000)
+              : null,
           },
         })
       }

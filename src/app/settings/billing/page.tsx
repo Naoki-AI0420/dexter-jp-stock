@@ -4,6 +4,7 @@ import { db } from "@/lib/db"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PLANS } from "@/lib/stripe"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export default async function BillingPage() {
   const session = await auth()
@@ -37,7 +38,11 @@ export default async function BillingPage() {
     <div className="min-h-screen bg-gray-950 text-white">
       <nav className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold">Dexter</Link>
-        <Link href="/dashboard" className="text-gray-400 hover:text-white text-sm">← ダッシュボード</Link>
+        <div className="flex items-center gap-4">
+          <Link href="/settings/account" className="text-gray-400 hover:text-white text-sm">アカウント設定</Link>
+          <Link href="/dashboard" className="text-gray-400 hover:text-white text-sm">← ダッシュボード</Link>
+          <ThemeToggle />
+        </div>
       </nav>
 
       <div className="max-w-3xl mx-auto px-6 py-10">

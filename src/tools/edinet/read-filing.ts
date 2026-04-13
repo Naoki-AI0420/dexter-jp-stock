@@ -178,7 +178,7 @@ export function extractAccountMetrics(xml: string, maxItems = 20): string {
   const seen = new Set<string>();
 
   // Match elements like <jpcrp:NetSales contextRef="...">12345</jpcrp:NetSales>
-  const elemRegex = /<(?:[A-Za-z0-9_-]+:)?([A-Za-z][A-Za-z0-9]+)\s[^>]*contextRef="[^"]*"[^>]*>([\d,.+\-]+)<\/(?:[A-Za-z0-9_-]+:)?\1>/g;
+  const elemRegex = /<(?:[A-Za-z0-9_-]+:)?([A-Za-z][A-Za-z0-9]+)\s[^>]*contextRef="[^"]*"[^>]*>([-\d,.+]+)<\/(?:[A-Za-z0-9_-]+:)?\1>/g;
   let match: RegExpExecArray | null;
 
   while ((match = elemRegex.exec(xml)) !== null && results.length < maxItems) {

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PLANS } from "@/lib/stripe"
 import { WatchlistSection } from "@/components/dashboard/watchlist-section"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 interface CalendarEntry {
   date: string
@@ -62,9 +63,10 @@ export default async function DashboardPage() {
     <div className="min-h-screen bg-gray-950 text-white">
       <nav className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold">Dexter</Link>
-        <div className="flex items-center gap-4">
-          <Link href="/history" className="text-gray-400 hover:text-white text-sm">履歴</Link>
-          <Link href="/settings/billing" className="text-gray-400 hover:text-white text-sm">プラン</Link>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <Link href="/history" className="hidden sm:block text-gray-400 hover:text-white text-sm">履歴</Link>
+          <Link href="/settings/billing" className="hidden sm:block text-gray-400 hover:text-white text-sm">プラン</Link>
+          <ThemeToggle />
           <Link href="/chat">
             <Button className="bg-amber-500 hover:bg-amber-400 text-black text-sm font-semibold">
               分析を始める

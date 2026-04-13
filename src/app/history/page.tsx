@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { db } from "@/lib/db"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export default async function HistoryPage() {
   const session = await auth()
@@ -27,6 +28,7 @@ export default async function HistoryPage() {
         <Link href="/" className="text-xl font-bold">Dexter</Link>
         <div className="flex items-center gap-4">
           <Link href="/dashboard" className="text-gray-400 hover:text-white text-sm">← ダッシュボード</Link>
+          <ThemeToggle />
           <Link href="/chat">
             <Button className="bg-amber-500 hover:bg-amber-400 text-black text-sm font-semibold">
               新しい分析
