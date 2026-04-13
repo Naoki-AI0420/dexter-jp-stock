@@ -24,6 +24,7 @@ model User {
   accounts                 Account[]
   sessions                 Session[]
   watchlists               Watchlist[]
+  scratchpads              Scratchpad[]
 }
 
 model Chat {
@@ -111,6 +112,17 @@ model SharedAnalysis {
   slug      String    @unique
   createdAt DateTime  @default(now())
   expiresAt DateTime?
+}
+
+model Scratchpad {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String?
+  content   String   @db.Text
+  toolCalls Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Plan {

@@ -28,8 +28,27 @@ services:
     volumes:
       - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./docker/certs:/etc/nginx/certs:ro
+      - certbot_webroot:/var/www/certbot:ro
     depends_on:
       - app
+    networks:
+      - dexter_net
+
+  # Let's Encrypt certificate issuance (run once, then renew via cron)
+  certbot:
+    image: certbot/certbot:latest
+    profiles:
+      - certbot
+    volumes:
+      - ./docker/certs:/etc/letsencrypt
+      - certbot_webroot:/var/www/certbot
+    command: >
+      certonly --webroot
+      --webroot-path=/var/www/certbot
+      --email ${CERT_EMAIL}
+      --agree-tos
+      --no-eff-email
+      -d ${DOMAIN}
     networks:
       - dexter_net
 
@@ -67,6 +86,7 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  certbot_webroot:
 
 networks:
   dexter_net:
